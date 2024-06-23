@@ -1,0 +1,27 @@
+name: Unzip File
+
+on:
+  push:
+    branches:
+      - main  # Change this to your target branch if needed
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Unzip file
+      run: unzip iPortfolio.zip -d ./unzip_output
+
+    - name: Commit unzipped files
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add .
+        git commit -m 'Unzip iPortfolio.zip'
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
